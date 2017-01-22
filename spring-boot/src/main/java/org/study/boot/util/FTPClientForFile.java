@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import org.apache.commons.net.ftp.FTPClient;
+import org.apache.commons.net.ftp.FTPClientConfig;
+import org.apache.commons.net.ftp.FTPFile;
 import org.apache.commons.net.ftp.FTPReply;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -37,9 +39,10 @@ public class FTPClientForFile {
 		try {
 			// 开启登录
 			ftp.connect(url, port);
-			ftp.login(username, password);
+			System.out.println(ftp.login(username, password));
 			// 返回的最后一个FTP答复代码整数
 			int reply = ftp.getReplyCode();
+			System.out.println("reply:"+reply);
 			// 判断是否连接成功
 			if (!FTPReply.isPositiveCompletion(reply)) {
 				ftp.disconnect();
@@ -124,5 +127,28 @@ public class FTPClientForFile {
 				} 
 				return false;
 		
+	}
+	public InputStream downFile(String fileName) {
+		// 设置编码
+		 ftp.setControlEncoding("GBK");
+        FTPClientConfig conf = new FTPClientConfig(FTPClientConfig.SYST_NT);   
+        conf.setServerLanguageCode("zh"); 
+        ftp.configure(conf);
+		try {
+			// 设置文件类型
+			ftp.setFileType(FTPClient.BINARY_FILE_TYPE);
+			// 改变工作目录
+			ftp.changeWorkingDirectory(upFileSavePath);
+			// 下载文件
+			FTPFile[] files=ftp.listFiles();
+			System.out.println(files.length);
+			for(FTPFile file:files){
+				System.out.println(file.getName()+"<<<>>>"+file.getSize());
+			}
+			return ftp.retrieveFileStream(new String(fileName.getBytes("gbk"),"iso-8859-1"));
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
+		return null;
 	}
 }

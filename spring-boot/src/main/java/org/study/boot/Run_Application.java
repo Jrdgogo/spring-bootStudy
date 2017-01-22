@@ -3,6 +3,7 @@ package org.study.boot;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
 
 /**
 * <p>Title: Run_Application</p>
@@ -13,7 +14,9 @@ import org.springframework.context.annotation.ComponentScan;
 */
 @ComponentScan(basePackages = "org.study.boot")
 @EnableAutoConfiguration
+@Configuration
 public class Run_Application {
+	
     public static void main(String[] args) {
         SpringApplication app = new SpringApplication(Run_Application.class);
         app.run(args);
