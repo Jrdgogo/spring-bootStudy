@@ -1,0 +1,18 @@
+
+<html>
+<body>
+<h2>Hello World!</h2>
+<div th:if="${#lists.isEmpty(books)}">
+			<p>isEmpty</p>
+		</div>
+<div th:unless="${#lists.isEmpty(books)}">
+			<p>NOTisEmpty</p>
+		</div>
+<form action="uploadFile.action" method="post" enctype="multipart/form-data">
+		<input type="file" name="files" />
+		<input type="file" name="files" />
+		<input type="file" name="files" />
+<input type="submit" name="上传"/>
+</form>
+</body>
+</html>
